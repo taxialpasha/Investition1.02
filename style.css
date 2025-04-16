@@ -1892,3 +1892,69 @@ tr:hover .table-action-btn {
     color: white;
   }
   
+
+  #pwa-install-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 16px;
+    max-width: 320px;
+    display: none;
+}
+
+.pwa-install-title {
+    font-weight: 700;
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+}
+
+.pwa-install-text {
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.pwa-install-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.pwa-install-btn {
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    border: none;
+    font-family: 'Tajawal', sans-serif;
+}
+
+.pwa-install-accept {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.pwa-install-later {
+    background-color: #e5e7eb;
+    color: #4b5563;
+}
+
+.pwa-close {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f3f4f6;
+    color: #6b7280;
+    cursor: pointer;
+    border: none;
+    font-size: 14px;
+}

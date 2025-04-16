@@ -6,10 +6,19 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>نظام الاستثمار المتكامل</title>
+    <!-- PWA مانيفست -->
+    <link rel="manifest" href="manifest.json" />
+    <!-- أيقونات التطبيق -->
+    <link rel="icon" type="image/png" href="icon.png" />
+    <link rel="apple-touch-icon" href="icon.png" />
+    <!-- لون الثيم للهاتف المحمول -->
+    <meta name="theme-color" content="#3b82f6" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <!-- وصف التطبيق -->
+    <meta name="description" content="نظام متكامل لإدارة الاستثمارات والمستثمرين" />
+    
     <!-- Font Awesome for icons -->
-
-    <link rel="icon" type="image/png" href="assets/icon.png" />
-
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
     <!-- Google Fonts - Tajawal -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&amp;display=swap"
@@ -136,7 +145,21 @@
                             <i class="fas fa-search search-icon"></i>
                         </div>
                         <!-- هذا نموذج لما يجب تعديله في ملف index.html -->
-
+  <!-- مؤشر تثبيت التطبيق -->
+    <div id="pwa-install-container">
+        <button class="pwa-close" id="pwa-close-btn">&times;</button>
+        <div class="pwa-install-title">
+            <i class="fas fa-download"></i>
+            تثبيت التطبيق
+        </div>
+        <div class="pwa-install-text">
+            قم بتثبيت نظام الاستثمار المتكامل على جهازك للوصول السريع والاستخدام دون اتصال بالإنترنت.
+        </div>
+        <div class="pwa-install-buttons">
+            <button class="pwa-install-btn pwa-install-accept" id="pwa-install-btn">تثبيت</button>
+            <button class="pwa-install-btn pwa-install-later" id="pwa-later-btn">لاحقاً</button>
+        </div>
+    </div>
 
 <!-- بعد التعديل - مع إضافة الشارة (badge) -->
 <button class="btn btn-outline" id="notification-btn">
@@ -990,14 +1013,95 @@
 <script src="notifications-fix-v2.js"></script>
 <script src="Installation Script for System Fixes.js"></script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log('تم تحميل الصفحة بنجاح');
-            // سيتم تهيئة التطبيق تلقائيًا عبر الملف الجديد
-        });
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('تم تحميل الصفحة بنجاح');
+    // سيتم تهيئة التطبيق تلقائيًا عبر الملف الجديد
+});
+
+// كود تسجيل Service Worker
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+                console.log('تم تسجيل Service Worker بنجاح:', registration.scope);
+            })
+            .catch(error => {
+                console.log('فشل تسجيل Service Worker:', error);
+            });
+    });
+}
 
 
-    </script>
+// معالجة نقرة زر التثبيت
+pwaInstallBtn.addEventListener('click', () => {
+    // إخفاء مؤشر التثبيت
+    pwaInstallContainer.style.display = 'none';
+    // إظهار مربع حوار التثبيت
+    deferredPrompt.prompt();
+    // انتظار اختيار المستخدم
+    deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+            console.log('تم قبول تثبيت التطبيق');
+        } else {
+            console.log('تم رفض تثبيت التطبيق');
+        }
+        // تنظيف المتغير
+        deferredPrompt = null;
+    });
+});
+
+// معالجة نقرة زر "لاحقًا"
+pwaLaterBtn.addEventListener('click', () => {
+    pwaInstallContainer.style.display = 'none';
+});
+
+// معالجة نقرة زر الإغلاق
+pwaCloseBtn.addEventListener('click', () => {
+    pwaInstallContainer.style.display = 'none';
+});
+
+// التحقق من حالة التثبيت
+window.addEventListener('appinstalled', (evt) => {
+    console.log('تم تثبيت التطبيق بنجاح!');
+    // إخفاء مؤشر التثبيت
+    pwaInstallContainer.style.display = 'none';
+});
+</script>
+
+<script>
+async function fetchExchangeRate() {
+  const display = document.getElementById("usd-iqd");
+  try {
+    const response = await fetch("https://api.frankfurter.app/latest?from=USD&to=IQD");
+    const data = await response.json();
+    
+    if (data && data.rates && data.rates.IQD) {
+      const rate = data.rates.IQD.toFixed(2);
+      display.textContent = `${rate} دينار`;
+    } else {
+      display.textContent = "غير متوفر";
+    }
+  } catch (error) {
+    console.error("فشل في جلب سعر الصرف:", error);
+    display.textContent = "تعذر الاتصال";
+  }
+}
+
+fetchExchangeRate();
+setInterval(fetchExchangeRate, 60000); // كل دقيقة
+</script>
+
+<script>
+function updateClock() {
+  const now = new Date();
+  const hours = now.getHours().toString().padStart(2, '0');
+  const minutes = now.getMinutes().toString().padStart(2, '0');
+  const seconds = now.getSeconds().toString().padStart(2, '0');
+  document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+}
+setInterval(updateClock, 1000);
+updateClock(); // أول تحديث عند التحميل
+</script>
 </body>
 
 </html>
