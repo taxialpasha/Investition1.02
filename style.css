@@ -1977,3 +1977,9 @@ tr:hover .table-action-btn {
   border-radius: 0.5rem;
   font-family: 'Tajawal', sans-serif;
 }
+
+
+body:not(.authenticated) .layout,
+body:not(.authenticated) .main-content {
+    display: none;
+}
