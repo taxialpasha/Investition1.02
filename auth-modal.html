@@ -1,129 +1,103 @@
-<!-- نافذة المصادقة وإدارة المستخدمين -->
-<div class="auth-modal-overlay" id="auth-modal">
+<!-- نافذة المصادقة والتسجيل -->
+<div id="auth-modal" class="auth-modal-overlay">
     <div class="auth-modal">
         <div class="auth-modal-header">
             <h3 class="auth-modal-title">تسجيل الدخول</h3>
-            <button class="auth-modal-close" id="auth-modal-close">&times;</button>
+            <button class="auth-modal-close">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
-        
         <div class="auth-modal-body">
-            <!-- شعار النظام -->
-            <div class="auth-logo">
-                <img src="assets/icon.png" alt="شعار النظام">
-                <div class="auth-logo-title">نظام الاستثمار المتكامل</div>
+            <!-- رسائل الخطأ والنجاح -->
+            <div id="auth-error" class="auth-error-message"></div>
+            <div id="auth-success" class="auth-success-message"></div>
+            
+            <!-- تبويب تسجيل الدخول -->
+            <div id="login-tab" class="auth-tab active">
+                <form id="login-form" class="auth-form">
+                    <div class="auth-form-group">
+                        <label for="login-email" class="auth-form-label">البريد الإلكتروني</label>
+                        <input type="email" id="login-email" class="auth-form-input" placeholder="أدخل بريدك الإلكتروني" required>
+                    </div>
+                    <div class="auth-form-group">
+                        <label for="login-password" class="auth-form-label">كلمة المرور</label>
+                        <div class="auth-password-container">
+                            <input type="password" id="login-password" class="auth-form-input" placeholder="أدخل كلمة المرور" required>
+                            <button type="button" class="auth-toggle-password" data-target="login-password">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="auth-remember">
+                        <input type="checkbox" id="login-remember">
+                        <label for="login-remember">تذكرني</label>
+                    </div>
+                    <div class="auth-actions">
+                        <button type="button" id="login-btn" class="auth-submit-btn">تسجيل الدخول</button>
+                    </div>
+                    <div class="auth-links">
+                        <a href="#" id="forgot-password" class="auth-link">نسيت كلمة المرور؟</a>
+                        <span class="auth-separator">|</span>
+                        <a href="#" id="switch-to-signup" class="auth-link">إنشاء حساب جديد</a>
+                    </div>
+                </form>
             </div>
             
-            <!-- رسائل الخطأ -->
-            <div class="auth-error" id="auth-error"></div>
+            <!-- تبويب إنشاء حساب -->
+            <div id="signup-tab" class="auth-tab">
+                <form id="signup-form" class="auth-form">
+                    <div class="auth-form-group">
+                        <label for="signup-name" class="auth-form-label">الاسم الكامل</label>
+                        <input type="text" id="signup-name" class="auth-form-input" placeholder="أدخل اسمك الكامل">
+                    </div>
+                    <div class="auth-form-group">
+                        <label for="signup-email" class="auth-form-label">البريد الإلكتروني</label>
+                        <input type="email" id="signup-email" class="auth-form-input" placeholder="أدخل بريدك الإلكتروني" required>
+                    </div>
+                    <div class="auth-form-group">
+                        <label for="signup-password" class="auth-form-label">كلمة المرور</label>
+                        <div class="auth-password-container">
+                            <input type="password" id="signup-password" class="auth-form-input" placeholder="أدخل كلمة المرور" required>
+                            <button type="button" class="auth-toggle-password" data-target="signup-password">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="auth-form-group">
+                        <label for="signup-confirm-password" class="auth-form-label">تأكيد كلمة المرور</label>
+                        <div class="auth-password-container">
+                            <input type="password" id="signup-confirm-password" class="auth-form-input" placeholder="أعد إدخال كلمة المرور" required>
+                            <button type="button" class="auth-toggle-password" data-target="signup-confirm-password">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="auth-actions">
+                        <button type="button" id="signup-btn" class="auth-submit-btn">إنشاء حساب</button>
+                    </div>
+                    <div class="auth-links">
+                        <span>لديك حساب بالفعل؟</span>
+                        <a href="#" id="switch-to-login" class="auth-link">تسجيل الدخول</a>
+                    </div>
+                </form>
+            </div>
             
-            <!-- علامات تبويب المصادقة -->
-            <div class="auth-tabs">
-                <!-- تسجيل الدخول -->
-                <div class="auth-tab active" id="login-tab">
-                    <form class="auth-form" id="login-form">
-                        <div class="auth-form-group">
-                            <label class="auth-label" for="login-email">البريد الإلكتروني</label>
-                            <input class="auth-input" type="email" id="login-email" placeholder="أدخل بريدك الإلكتروني" required>
-                        </div>
-                        <div class="auth-form-group">
-                            <label class="auth-label" for="login-password">كلمة المرور</label>
-                            <input class="auth-input" type="password" id="login-password" placeholder="أدخل كلمة المرور" required>
-                        </div>
-                        
-                        <div class="auth-forgot-password">
-                            <a href="#" id="forgot-password">نسيت كلمة المرور؟</a>
-                        </div>
-                        
-                        <button class="auth-button auth-button-primary" type="submit" id="login-btn">تسجيل الدخول</button>
-                    </form>
-                </div>
-                
-                <!-- إنشاء حساب -->
-                <div class="auth-tab" id="signup-tab">
-                    <form class="auth-form" id="signup-form">
-                        <div class="auth-form-group">
-                            <label class="auth-label" for="signup-name">الاسم الكامل</label>
-                            <input class="auth-input" type="text" id="signup-name" placeholder="أدخل اسمك الكامل">
-                        </div>
-                        <div class="auth-form-group">
-                            <label class="auth-label" for="signup-email">البريد الإلكتروني</label>
-                            <input class="auth-input" type="email" id="signup-email" placeholder="أدخل بريدك الإلكتروني" required>
-                        </div>
-                        <div class="auth-form-group">
-                            <label class="auth-label" for="signup-password">كلمة المرور</label>
-                            <input class="auth-input" type="password" id="signup-password" placeholder="أدخل كلمة المرور (6 أحرف على الأقل)" required>
-                        </div>
-                        <div class="auth-form-group">
-                            <label class="auth-label" for="signup-confirm-password">تأكيد كلمة المرور</label>
-                            <input class="auth-input" type="password" id="signup-confirm-password" placeholder="أعد إدخال كلمة المرور" required>
-                        </div>
-                        
-                        <button class="auth-button auth-button-primary" type="submit" id="signup-btn">إنشاء حساب</button>
-                    </form>
-                </div>
-                
-                <!-- استعادة كلمة المرور -->
-                <div class="auth-tab" id="reset-tab">
-                    <form class="auth-form" id="reset-form">
-                        <div class="auth-form-group">
-                            <label class="auth-label" for="reset-email">البريد الإلكتروني</label>
-                            <input class="auth-input" type="email" id="reset-email" placeholder="أدخل بريدك الإلكتروني" required>
-                        </div>
-                        
-                        <div class="auth-success" id="reset-success"></div>
-                        
-                        <button class="auth-button auth-button-primary" type="submit" id="reset-btn">إرسال رابط التعيين</button>
-                        
-                        <div class="auth-divider">
-                            <span class="auth-divider-text">أو</span>
-                        </div>
-                        
-                        <button class="auth-button auth-button-outline" type="button" id="back-to-login">العودة إلى تسجيل الدخول</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        
-        <!-- تذييل النافذة -->
-        <div class="auth-modal-footer">
-            <p id="login-footer">
-                ليس لديك حساب؟ <a href="#" id="switch-to-signup">إنشاء حساب جديد</a>
-            </p>
-            <p id="signup-footer" style="display: none;">
-                لديك حساب بالفعل؟ <a href="#" id="switch-to-login">تسجيل الدخول</a>
-            </p>
-        </div>
-    </div>
-</div>
-
-<!-- قالب لوحة معلومات المستخدم المسجل في شريط التنقل -->
-<div class="auth-user-panel auth-only">
-    <div class="auth-user-avatar" id="user-avatar">م</div>
-    <div class="auth-user-info">
-        <div class="auth-user-name" id="user-name">مستخدم النظام</div>
-        <div class="auth-user-role" id="user-email">user@example.com</div>
-    </div>
-    <div class="auth-user-dropdown">
-        <div class="auth-dropdown-menu">
-            <div class="auth-dropdown-item" id="profile-btn">
-                <i class="fas fa-user"></i>
-                <span>الملف الشخصي</span>
-            </div>
-            <div class="auth-dropdown-item" id="settings-btn">
-                <i class="fas fa-cog"></i>
-                <span>الإعدادات</span>
-            </div>
-            <div class="auth-dropdown-divider"></div>
-            <div class="auth-dropdown-item" id="logout-btn">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>تسجيل الخروج</span>
+            <!-- تبويب استعادة كلمة المرور -->
+            <div id="reset-tab" class="auth-tab">
+                <form id="reset-form" class="auth-form">
+                    <div class="auth-form-group">
+                        <label for="reset-email" class="auth-form-label">البريد الإلكتروني</label>
+                        <input type="email" id="reset-email" class="auth-form-input" placeholder="أدخل بريدك الإلكتروني" required>
+                    </div>
+                    <div id="reset-success" class="auth-success-message"></div>
+                    <div class="auth-actions">
+                        <button type="button" id="reset-btn" class="auth-submit-btn">إرسال رابط التعيين</button>
+                    </div>
+                    <div class="auth-links">
+                        <a href="#" id="back-to-login" class="auth-link">العودة إلى تسجيل الدخول</a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
-
-<!-- زر تسجيل الدخول للزوار -->
-<button class="btn btn-primary guest-only" id="header-login-btn">
-    <i class="fas fa-sign-in-alt"></i>
-    <span>تسجيل الدخول</span>
-</button>

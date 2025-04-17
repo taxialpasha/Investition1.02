@@ -726,9 +726,12 @@ function showAuthError(message) {
         errorElement.textContent = message;
         errorElement.style.display = 'block';
         
-        // إخفاء الرسالة بعد 5 ثوانٍ
+        // إخفاء رسالة الخطأ بعد 5 ثوانٍ
         setTimeout(() => {
             errorElement.style.display = 'none';
         }, 5000);
+    } else {
+        // عرض الرسالة في وحدة تحكم المتصفح إذا لم يكن هناك عنصر لعرض الخطأ
+        console.error('رسالة خطأ المصادقة:', message);
     }
 }

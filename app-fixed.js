@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setCurrentDateAsDefault();
     updateDashboard();
     populateInvestorSelects();
-    setupSpeechRecognition();
+    
     initCharts();
 
     // تفعيل الزر العائم
@@ -2083,7 +2083,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setCurrentDateAsDefault();
     updateDashboard();
     populateInvestorSelects();
-    setupSpeechRecognition();
+ 
     initCharts();
 
     // تفعيل الزر العائم
@@ -4659,9 +4659,7 @@ function setupSpeechGrammar() {
 document.addEventListener('DOMContentLoaded', function() {
     // إضافة أنماط CSS
     addSpeechRecognitionStyles();
-    
-    // إعداد أزرار المايكروفون
-    setupSpeechRecognition();
+   
     
     // إعداد القواعد النحوية
     setupSpeechGrammar();
@@ -4723,6 +4721,37 @@ function setupSpeechRecognitionForButtons(buttons) {
     });
 }
 
+
+
+// إضافة هذه الدالة في ملف app-fixed.js (يمكن إضافتها في نهاية الملف، قبل آخر سطر)
+function formatCurrency(amount, addCurrency = true) {
+    // التحقق من صحة المبلغ
+    if (amount === undefined || amount === null || isNaN(amount)) {
+        return addCurrency ? "0 " + (window.settings?.currency || 'دينار') : "0";
+    }
+    
+    // تقريب المبلغ إلى رقمين عشريين إذا كان يحتوي على كسور
+    amount = parseFloat(amount);
+    if (amount % 1 !== 0) {
+        amount = amount.toFixed(2);
+    }
+    
+    // تحويل المبلغ إلى نص وإضافة النقاط بين كل ثلاثة أرقام
+    const parts = amount.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    
+    // إعادة المبلغ مع إضافة العملة إذا تم طلب ذلك
+    const formattedAmount = parts.join('.');
+    
+    if (addCurrency) {
+        return formattedAmount + " " + (window.settings?.currency || 'دينار');
+    } else {
+        return formattedAmount;
+    }
+}
+
+// إضافة الدالة كخاصية لكائن window للتأكد من إمكانية الوصول إليها
+window.formatCurrency = formatCurrency;
 
 /**
  * دمج ميزة التعرف على الصوت مع نظام الاستثمار المتكامل
@@ -5296,3 +5325,41 @@ function setupModalEvents() {
               document.getElementById("close-btn").addEventListener("click", () => {
                 window.windowControls.close();
               });
+              
+              
+              
+              document.addEventListener('page:change', function(e) {
+    if (!e.detail || !e.detail.page) return;
+    
+    // قائمة الصفحات المحمية التي تتطلب تسجيل الدخول
+    const protectedPages = [
+        'investors', 'transactions', 'profits', 'reports', 'settings'
+    ];
+    
+    // التحقق مما إذا كانت الصفحة المطلوبة محمية
+    if (protectedPages.includes(e.detail.page)) {
+        // التحقق من حالة المصادقة
+        const isAuthenticated = window.AuthSystem ? window.AuthSystem.isAuthenticated() : false;
+        
+        if (!isAuthenticated) {
+            // منع الوصول إلى الصفحة المحمية
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // إظهار نافذة تسجيل الدخول
+            if (window.AuthSystem) {
+                window.AuthSystem.showAuthModal();
+            }
+            
+            // إظهار إشعار للمستخدم
+            if (window.showNotification) {
+                window.showNotification('يجب تسجيل الدخول للوصول إلى هذه الصفحة', 'warning');
+            }
+            
+            // العودة إلى الصفحة الرئيسية
+            showPage('dashboard');
+            
+            return false;
+        }
+    }
+});
