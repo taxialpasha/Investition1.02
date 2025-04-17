@@ -5312,6 +5312,7 @@ function setupModalEvents() {
                     }
                 });
             }
+document.body.classList.add('authenticated');
 
 
             document.getElementById("minimize-btn").addEventListener("click", () => {
