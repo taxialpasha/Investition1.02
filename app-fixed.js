@@ -5325,3 +5325,45 @@ function setupModalEvents() {
               document.getElementById("close-btn").addEventListener("click", () => {
                 window.windowControls.close();
               });
+              
+              
+              function handleLogin() {
+  const email = document.getElementById('auth-email').value;
+  const password = document.getElementById('auth-password').value;
+
+  FirebaseSync.login(email, password)
+    .then(() => {
+      document.getElementById('auth-modal').classList.remove('active');
+      loadData(); // تحميل البيانات بعد تسجيل الدخول
+    })
+    .catch(err => {
+      document.getElementById('auth-message').textContent = "فشل تسجيل الدخول: " + err.message;
+    });
+}
+
+function handleSignup() {
+  const email = document.getElementById('auth-email').value;
+  const password = document.getElementById('auth-password').value;
+
+  FirebaseSync.signup(email, password)
+    .then(() => {
+      document.getElementById('auth-modal').classList.remove('active');
+      loadData();
+    })
+    .catch(err => {
+      document.getElementById('auth-message').textContent = "فشل إنشاء الحساب: " + err.message;
+    });
+}
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  FirebaseSync.initialize().then(isLoggedIn => {
+    if (!isLoggedIn) {
+      document.getElementById('auth-modal').classList.add('active');
+    } else {
+      document.getElementById('auth-modal').classList.remove('active');
+      document.body.classList.add('authenticated');
+      loadData();
+    }
+  });
+});

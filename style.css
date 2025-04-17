@@ -1958,11 +1958,22 @@ tr:hover .table-action-btn {
     border: none;
     font-size: 14px;
 }
-
-.layout, .main-content {
-  display: none;
-}
-body.authenticated .layout,
-body.authenticated .main-content {
+#auth-modal .form-group label {
   display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+}
+
+#auth-modal input.form-control {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 1rem;
+}
+
+#auth-modal .btn {
+  border-radius: 0.5rem;
+  font-family: 'Tajawal', sans-serif;
 }
