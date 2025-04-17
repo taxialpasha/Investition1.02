@@ -84,23 +84,6 @@
                             <div class="nav-icon">
                                 <i class="fas fa-home"></i>
                             </div>
-                             <div id="auth-container" class="auth-container">
-      <div class="auth-card">
-        <h2>تسجيل الدخول</h2>
-        <input type="email" id="login-email" placeholder="البريد الإلكتروني" />
-        <input type="password" id="login-password" placeholder="كلمة المرور" />
-        <button id="login-btn">دخول</button>
-        <p>لا تملك حساب؟ <span id="show-signup" style="color: blue; cursor: pointer;">إنشاء حساب</span></p>
-      </div>
-      <div class="auth-card hidden" id="signup-card">
-        <h2>إنشاء حساب</h2>
-        <input type="email" id="signup-email" placeholder="البريد الإلكتروني" />
-        <input type="password" id="signup-password" placeholder="كلمة المرور" />
-        <input type="password" id="admin-code" placeholder="كلمة مرور المسؤول" />
-        <button id="signup-btn">إنشاء الحساب</button>
-        <p>لديك حساب؟ <span id="show-login" style="color: blue; cursor: pointer;">تسجيل الدخول</span></p>
-      </div>
-    </div>
                             <span>لوحة التحكم</span>
                         </a>
                     </li>
@@ -1121,78 +1104,6 @@ function updateClock() {
 }
 setInterval(updateClock, 1000);
 updateClock(); // أول تحديث عند التحميل
-
-<script>
-const firebaseConfig = {
-    apiKey: "AIzaSyDGpAHia_wEmrhnmYjrPf1n1TrAzwEMiAI",
-    authDomain: "messageemeapp.firebaseapp.com",
-    databaseURL: "https://messageemeapp-default-rtdb.firebaseio.com",
-    projectId: "messageemeapp",
-    storageBucket: "messageemeapp.appspot.com",
-    messagingSenderId: "255034474844",
-    appId: "1:255034474844:web:5e3b7a6bc4b2fb94cc4199"
-};
-
-firebase.initializeApp(firebaseConfig);
-
-document.addEventListener('DOMContentLoaded', function () {
-    const authContainer = document.getElementById('auth-container');
-    const mainLayout = document.querySelector('.layout');
-    const signupCard = document.getElementById('signup-card');
-    const showSignup = document.getElementById('show-signup');
-    const showLogin = document.getElementById('show-login');
-
-    showSignup.onclick = () => {
-        signupCard.classList.remove('hidden');
-        showSignup.closest('.auth-card').classList.add('hidden');
-    };
-    showLogin.onclick = () => {
-        signupCard.classList.add('hidden');
-        document.querySelector('.auth-card').classList.remove('hidden');
-    };
-
-    document.getElementById('login-btn').onclick = () => {
-        const email = document.getElementById('login-email').value;
-        const password = document.getElementById('login-password').value;
-        FirebaseSync.login(email, password)
-            .then(() => {
-                authContainer.style.display = 'none';
-                mainLayout.style.display = 'block';
-                window._enhancedLoadData?.();
-            })
-            .catch(err => alert('فشل تسجيل الدخول: ' + err.message));
-    };
-
-    document.getElementById('signup-btn').onclick = () => {
-        const email = document.getElementById('signup-email').value;
-        const password = document.getElementById('signup-password').value;
-        const adminCode = document.getElementById('admin-code').value;
-
-        if (adminCode !== 'admin123') {
-            alert('كلمة مرور المسؤول غير صحيحة');
-            return;
-        }
-
-        FirebaseSync.signup(email, password)
-            .then(() => {
-                authContainer.style.display = 'none';
-                mainLayout.style.display = 'block';
-                window._enhancedLoadData?.();
-            })
-            .catch(err => alert('فشل إنشاء الحساب: ' + err.message));
-    };
-
-    FirebaseSync.initialize().then(isLoggedIn => {
-        if (isLoggedIn) {
-            authContainer.style.display = 'none';
-            mainLayout.style.display = 'block';
-            window._enhancedLoadData?.();
-        } else {
-            authContainer.style.display = 'flex';
-            mainLayout.style.display = 'none';
-        }
-    });
-});
 </script>
 </body>
 
