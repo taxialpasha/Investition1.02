@@ -954,6 +954,22 @@
         </div>
       </div>
 
+<div id="auth-modal" class="modal-overlay active">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>تسجيل الدخول / إنشاء حساب</h3>
+    </div>
+    <div class="modal-body">
+      <input type="email" id="auth-email" placeholder="البريد الإلكتروني" />
+      <input type="password" id="auth-password" placeholder="كلمة المرور" />
+      <div class="modal-actions">
+        <button onclick="handleLogin()">تسجيل الدخول</button>
+        <button onclick="handleSignup()">إنشاء حساب</button>
+      </div>
+      <p id="auth-message" style="color:red;"></p>
+    </div>
+  </div>
+</div>
 
 
       <script>

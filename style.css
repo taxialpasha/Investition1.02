@@ -1958,3 +1958,11 @@ tr:hover .table-action-btn {
     border: none;
     font-size: 14px;
 }
+
+.layout, .main-content {
+  display: none;
+}
+body.authenticated .layout,
+body.authenticated .main-content {
+  display: block;
+}
