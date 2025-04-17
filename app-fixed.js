@@ -133,7 +133,6 @@ function initNavigation() {
             }
         });
     });
-document.body.classList.add('authenticated');
 
     // أزرار فتح وإغلاق القائمة الجانبية
     document.querySelectorAll('.toggle-sidebar').forEach(btn => {
@@ -5313,7 +5312,6 @@ function setupModalEvents() {
                     }
                 });
             }
-document.body.classList.add('authenticated');
 
 
             document.getElementById("minimize-btn").addEventListener("click", () => {
