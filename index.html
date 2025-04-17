@@ -954,77 +954,7 @@
         </div>
       </div>
 
-<!-- نافذة تسجيل الدخول -->
-<div id="auth-modal" class="modal-overlay active" style="z-index: 9999;">
-  <div class="modal animate__animated animate__fadeInDown" style="max-width: 400px; background: white;">
-    <div class="modal-header" style="border-bottom: 1px solid #eee;">
-      <h3 class="modal-title" style="font-weight: 700; color: #3b82f6;">تسجيل الدخول / إنشاء حساب</h3>
-    </div>
-    <div class="modal-body" style="padding: 1.5rem;">
-      <div class="form-group">
-        <label for="auth-email">البريد الإلكتروني</label>
-        <input id="auth-email" type="email" class="form-control" placeholder="ادخل بريدك الإلكتروني" />
-      </div>
-      <div class="form-group mt-3">
-        <label for="auth-password">كلمة المرور</label>
-        <input id="auth-password" type="password" class="form-control" placeholder="ادخل كلمة المرور" />
-      </div>
-      <p id="auth-message" class="mt-2" style="color: #e74c3c; font-size: 0.9rem;"></p>
-     <input id="auth-email" type="email" />
-<input id="auth-password" type="password" />
-<p id="auth-message"></p>
-<button onclick="handleLogin()">تسجيل الدخول</button>
-<button onclick="handleSignup()">إنشاء حساب</button>
 
-      </div>
-    </div>
-  </div>
-</div>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  FirebaseSync.initialize().then(isLoggedIn => {
-    if (isLoggedIn) {
-      document.body.classList.add('authenticated');
-      document.getElementById('auth-modal')?.classList.remove('active');
-      window._enhancedLoadData?.(); // تحميل البيانات مع المزامنة
-    } else {
-      document.getElementById('auth-modal')?.classList.add('active');
-      document.body.classList.remove('authenticated');
-    }
-  });
-});
-</script>
-<script>
-function handleLogin() {
-  const email = document.getElementById('auth-email').value;
-  const password = document.getElementById('auth-password').value;
-  const message = document.getElementById('auth-message');
-  FirebaseSync.login(email, password)
-    .then(() => {
-      document.getElementById('auth-modal').classList.remove('active');
-      document.body.classList.add('authenticated');
-      window._enhancedLoadData?.();
-    })
-    .catch(error => {
-      message.textContent = 'فشل تسجيل الدخول: ' + error.message;
-    });
-}
-
-function handleSignup() {
-  const email = document.getElementById('auth-email').value;
-  const password = document.getElementById('auth-password').value;
-  const message = document.getElementById('auth-message');
-  FirebaseSync.signup(email, password)
-    .then(() => {
-      document.getElementById('auth-modal').classList.remove('active');
-      document.body.classList.add('authenticated');
-      window._enhancedLoadData?.();
-    })
-    .catch(error => {
-      message.textContent = 'فشل إنشاء الحساب: ' + error.message;
-    });
-}
-</script>
 
 
       <script>
